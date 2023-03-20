@@ -4,7 +4,7 @@ $DOWNLOAD_PATH = "C:\TEMP-PATH-TO-DOWNLOAD\torlist.txt"
 ### TOR List Source for downloading the latest list
 $TOR_LIST_SOURCE = "https://check.torproject.org/torbulkexitlist" ### Alternative source: https://www.dan.me.uk/torlist/
 
-# Pull down and store current TOR node IP's
+# Download and temporarily store current TOR node IP list
 [Net.ServicePointManager]::SecurityProtocol = "Tls12, Tls11, Tls, Ssl3"
 Invoke-WebRequest -Uri $TOR_LIST_SOURCE -OutFile $DOWNLOAD_PATH
 
@@ -14,7 +14,7 @@ $lines = Get-Content $DOWNLOAD_PATH | Measure-Object -Line | Select-Object -expa
 $iterations = (($lines-$lines%1000)/1000) + 1
 
 # Quit the program if no data was pulled down
-if($lines -lt 5) { 
+if($lines -lt 10) { 
 	Write-Host Server limited to one request every 30 minutes
 	exit 
 }
