@@ -10,7 +10,8 @@ Be sure to change the <Full_Path_To> variable to the actual path where the tor.p
 schtasks /Create /SC HOURLY /TR "C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -ep Bypass -File <Full_Path_To>\tor.ps1" /TN TorBlock
 ```
 
-3. From Task Scheduler change the scheduled task to both
+3. From Task Scheduler change the scheduled task to:
+   * Run as the SYSTEM user account
    * Run whether user is logged in or not
    * Run with highest privileges
 5. Lastly, attempt to run the task manually to ensure noting is blocking it from performing correctly.
