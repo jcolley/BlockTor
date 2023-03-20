@@ -7,7 +7,7 @@ Follow the steps below to enable the block:
 Be sure to change the <Full_Path_To> variable to the actual path where the tor.ps1 file is located.
 
 ```batchfile
-schtasks /Create /SC HOURLY /TR "C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -ep Bypass -File <Full_Path_To>\tor.ps1" /TN TorBlock
+schtasks /Create /SC HOURLY /TR "C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -ep Bypass -File <Full_Path_To>\tor.ps1" /TN BlockTor
 ```
 
 3. From Task Scheduler change the scheduled task to:
