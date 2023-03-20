@@ -2,15 +2,15 @@
 $DOWNLOAD_PATH = "C:\TEMP-PATH-TO-DOWNLOAD\torlist.txt"
 
 ### TOR List Source for downloading the latest list
-$TOR-LIST-SOURCE = "https://check.torproject.org/torbulkexitlist" ### Alternative source: https://www.dan.me.uk/torlist/
+$TOR_LIST_SOURCE = "https://check.torproject.org/torbulkexitlist" ### Alternative source: https://www.dan.me.uk/torlist/
 
 # Pull down and store current TOR node IP's
 [Net.ServicePointManager]::SecurityProtocol = "Tls12, Tls11, Tls, Ssl3"
-Invoke-WebRequest -Uri $TOR-LIST-SOURCE -OutFile $DOWNLOAD_PATH
+Invoke-WebRequest -Uri $TOR_LIST_SOURCE -OutFile $DOWNLOAD_PATH
 
 # Get new data for rules
 $lines = 0
-$lines = gc $DOWNLOAD_PATH | Measure-Object -Line | Select-Object -expand Lines
+$lines = Get-Content $DOWNLOAD_PATH | Measure-Object -Line | Select-Object -expand Lines
 $iterations = (($lines-$lines%1000)/1000) + 1
 
 # Quit the program if no data was pulled down
@@ -32,10 +32,10 @@ for ($t = 0; $t -lt $total/2; $t++) {
 # (Maximum number of IP's allowed per rule is 1000)
 for($i = 0; $i -lt $iterations; $i++) {
 	$skip = $i * 1000
-	$ips = gc $DOWNLOAD_PATH | Select -First 1000 -Skip $skip
+	$ips = Get-Content $DOWNLOAD_PATH | Select-Object -First 1000 -Skip $skip
 	$name = "TorBlock$i"
 	New-NetFirewallRule -Direction Inbound -DisplayName $name -Name $name2 -RemoteAddress $ips -Action Block -ea "SilentlyContinue"
 }
 
 # Cleanup
-rm $DOWNLOAD_PATH
+Remove-Item $DOWNLOAD_PATH
